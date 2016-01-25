@@ -1,13 +1,13 @@
 [package]
 
-name = "bgj10"
+name = "ggj2016"
 version = "0.1.0"
 authors = [
     "Sven-Hendrik Haase <svenstaro@gmail.com>",
 ]
 
 [[bin]]
-name = "bgj10"
+name = "ggj2016"
 
 [dependencies]
 piston = "0.17.0"
