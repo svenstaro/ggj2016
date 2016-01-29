@@ -2,7 +2,8 @@
 
 pub struct Player
 {
-    pos : (f64, f64)
+    pos : (f32, f32),
+    dir : (f32, f32)
 }
 
 impl Player
@@ -11,5 +12,15 @@ impl Player
         App {
             pos: (50.0f32, 50.0f32)
         }
+    }
+}
+
+impl Entity for Player {
+    fn update(dt : f64) {
+
+    }
+
+    fn render() {
+
     }
 }
