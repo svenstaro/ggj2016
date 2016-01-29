@@ -23,6 +23,7 @@ impl App {
 
     pub fn key_press(&mut self, args: Button) {
         if args == Keyboard(Key::Space) {
+            println!("was");
         }
     }
 
