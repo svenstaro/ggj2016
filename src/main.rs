@@ -5,6 +5,7 @@ extern crate time;
 extern crate rand;
 extern crate ai_behavior;
 extern crate sprite;
+extern crate cgmath;
 
 mod app;
 mod camera;
@@ -16,19 +17,10 @@ use piston::input::*;
 use piston::event_loop::*;
 use graphics::*;
 
-pub struct Position {
-    x: f32,
-    y: f32
-}
-
-impl Position {
-    pub fn new(argx: f32, argy: f32) -> Position {
-        Position {
-            x: argx,
-            y: argy
-        }
-    }
-}
+// LA stuff
+use cgmath::rad;
+use cgmath::{Vector2, Vector4};
+use cgmath::{Rotation2, Basis2};
 
 pub struct Size {
     width: u32,
@@ -49,7 +41,8 @@ fn main() {
     window.set_ups(60);
 
     let mut app = app::App::new();
-    //let player : player::Player = player::Player::new();
+
+    // Add player to entities
     app.add_entity(Box::new(player::Player::new()));
 
     for e in window {
