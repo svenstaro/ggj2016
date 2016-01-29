@@ -4,21 +4,18 @@ use piston::input::Key;
 use piston::input::{RenderArgs, UpdateArgs};
 
 use sprite::*;
+use entity::Entity;
 
 use Size;
 
-// use opengl_graphics::{
-//     GlGraphics,
-//     Texture,
-// };
-
 pub struct App {
-    pub scene: Scene<Size>
+    scene: Scene<Size>,
+    entities: Vec<Box<Entity>>
 }
 
 impl App {
     pub fn new() -> App {
-        return App {scene: Scene::new()};
+        return App {scene: Scene::new(), entities: vec![]};
     }
 
     pub fn key_press(&mut self, args: Button) {
@@ -27,9 +24,15 @@ impl App {
         }
     }
 
-    pub fn render(&mut self, args: RenderArgs) {
+    pub fn update(&mut self, args: UpdateArgs) {
+        for e in &mut self.entities {
+            e.update(args);
+        }
     }
 
-    pub fn update(&mut self, args: UpdateArgs) {
+    pub fn render(&mut self, args: RenderArgs) {
+        for e in &mut self.entities {
+            e.render(args);
+        }
     }
 }
