@@ -14,6 +14,11 @@ use piston::input::*;
 use piston::event_loop::*;
 use graphics::*;
 
+pub struct Position {
+    x: f32,
+    y: f32
+}
+
 pub struct Size {
     width: u32,
     height: u32
