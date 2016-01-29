@@ -3,19 +3,15 @@ use piston::input::Button::Keyboard;
 use piston::input::Key;
 use piston::input::{RenderArgs, UpdateArgs};
 
-use sprite::*;
 use entity::Entity;
 
-use Size;
-
 pub struct App {
-    scene: Scene<Size>,
     entities: Vec<Box<Entity>>
 }
 
 impl App {
     pub fn new() -> App {
-        return App {scene: Scene::new(), entities: vec![]};
+        return App {entities: vec![]};
     }
 
     pub fn key_press(&mut self, args: Button) {
