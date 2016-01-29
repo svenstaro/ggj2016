@@ -28,4 +28,8 @@ impl Entity for Player {
     fn render(&mut self, args: RenderArgs) {
         println!("playerrender");
     }
+
+    fn get_position(&self) -> &Position {
+        return &self.pos;
+    }
 }
