@@ -42,8 +42,8 @@ fn main() {
 
     let mut app = app::App::new();
 
-    // Add player to entities
-    app.add_entity(Box::new(player::Player::new()));
+    // Add player to entities (player instanciated in app)
+    //app.add_entity(Box::new(player::Player::new()));
 
     for e in window {
         if let Some(args) = e.press_args() {
