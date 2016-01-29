@@ -9,6 +9,7 @@ extern crate sprite;
 mod app;
 mod camera;
 mod entity;
+mod audio;
 
 use piston_window::{ PistonWindow, WindowSettings };
 use piston::input::*;
@@ -39,6 +40,9 @@ fn main() {
     window.set_ups(60);
 
     let mut app = app::App::new();
+
+    let audio = audio::Audio::new();
+    audio.play("assets/sounds/FuerElise.ogg");
 
     for e in window {
         if let Some(args) = e.press_args() {
