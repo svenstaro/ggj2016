@@ -7,6 +7,7 @@ extern crate ai_behavior;
 extern crate sprite;
 
 mod app;
+mod camera;
 mod entity;
 mod player;
 
