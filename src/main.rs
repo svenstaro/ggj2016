@@ -13,6 +13,11 @@ use graphics::*;
 
 mod app;
 
+pub struct Position {
+    x: f32,
+    y: f32
+}
+
 pub struct Size {
     width: u32,
     height: u32
