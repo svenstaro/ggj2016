@@ -11,6 +11,7 @@ mod app;
 mod camera;
 mod entity;
 mod player;
+mod config;
 
 use piston_window::{ PistonWindow, WindowSettings };
 use piston::input::*;
