@@ -25,8 +25,14 @@ impl App {
     }
 
     pub fn update(&mut self, args: UpdateArgs) {
+        for e in &mut self.entities {
+            e.update(args);
+        }
     }
 
     pub fn render(&mut self, args: RenderArgs) {
+        for e in &mut self.entities {
+            e.render(args);
+        }
     }
 }
