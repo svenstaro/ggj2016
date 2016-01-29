@@ -11,15 +11,19 @@ mod app;
 mod camera;
 mod entity;
 mod player;
+mod config;
 
 use piston_window::{ PistonWindow, WindowSettings };
 use piston::input::*;
 use piston::event_loop::*;
 use opengl_graphics::*;
+use graphics::{ Image, clear, default_draw_state };
+use graphics::rectangle::square;
+use std::path::Path;
 
 use cgmath::rad;
-use cgmath::{Vector2, Vector4};
-use cgmath::{Rotation2, Basis2};
+use cgmath::{ Vector2, Vector4 };
+use cgmath::{ Rotation2, Basis2 };
 
 fn main() {
     let opengl = OpenGL::V3_2;
@@ -33,8 +37,11 @@ fn main() {
 
     let mut app = app::App::new();
 
-    // Add player to entities
-    app.add_entity(Box::new(player::Player::new()));
+    // Add player to entities (player instanciated in app)
+    //app.add_entity(Box::new(player::Player::new()));
+    
+    let image = Image::new().rect(square(0.0, 0.0, 200.0));
+    let texture = Texture::from_path(Path::new("assets/img/emoji/60.png")).unwrap();
 
     for e in window {
         if let Some(args) = e.press_args() {
@@ -46,6 +53,10 @@ fn main() {
         }
 
         if let Some(args) = e.render_args() {
+            gl.draw(args.viewport(), |c, gl| {
+                clear([0.5, 0.2, 0.9, 1.0], gl);
+                image.draw(&texture, default_draw_state(), c.transform, gl);
+            });
             app.render(args);
         }
     }
