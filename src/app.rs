@@ -25,6 +25,9 @@ impl App {
     }
 
     pub fn update(&mut self, args: UpdateArgs) {
+        for &entity in &self.entities {
+            entity.update(args)
+        }
     }
 
     pub fn render(&mut self, args: RenderArgs) {

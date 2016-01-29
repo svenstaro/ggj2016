@@ -1,9 +1,16 @@
 
+mod app;
+
+pub trait Entity {
+    fn update(&mut self, args: UpdateArgs);
+    fn render(&mut self, args: RenderArgs);
+}
+
 
 pub struct Player
 {
-    pos : (f32, f32),
-    dir : (f32, f32)
+    pos : Position,
+    dir : Position
 }
 
 impl Player
@@ -16,11 +23,11 @@ impl Player
 }
 
 impl Entity for Player {
-    fn update(dt : f64) {
-
+    fn update(&mut self, args: UpdateArgs) {
+        println!("playerupdate");
     }
 
-    fn render() {
-
+    fn render(&mut self, args: RenderArgs) {
+        println!("playerrender");
     }
 }
