@@ -1,9 +1,11 @@
-extern crate piston;
-
 use piston::input::Button;
 use piston::input::Button::Keyboard;
 use piston::input::Key;
 use piston::input::{RenderArgs, UpdateArgs};
+
+use sprite::*;
+
+use Size;
 
 // use opengl_graphics::{
 //     GlGraphics,
@@ -11,12 +13,12 @@ use piston::input::{RenderArgs, UpdateArgs};
 // };
 
 pub struct App {
-    lol: i32
+    pub scene: Scene<Size>
 }
 
 impl App {
     pub fn new() -> App {
-        return App {lol: 2};
+        return App {scene: Scene::new()};
     }
 
     pub fn key_press(&mut self, args: Button) {
