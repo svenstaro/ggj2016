@@ -8,6 +8,7 @@ extern crate sprite;
 
 mod app;
 mod entity;
+mod player;
 
 use piston_window::{ PistonWindow, WindowSettings };
 use piston::input::*;
@@ -17,6 +18,15 @@ use graphics::*;
 pub struct Position {
     x: f32,
     y: f32
+}
+
+impl Position {
+    pub fn new(argx: f32, argy: f32) -> Position {
+        Position {
+            x: argx,
+            y: argy
+        }
+    }
 }
 
 pub struct Size {
@@ -38,18 +48,20 @@ fn main() {
     window.set_ups(60);
 
     let mut app = app::App::new();
+    //let player : player::Player = player::Player::new();
+    app.add_entity(Box::new(player::Player::new()));
 
     for e in window {
-        if let Some(args) = e.render_args() {
-            app.render(args);
+        if let Some(args) = e.press_args() {
+            app.key_press(args);
         }
 
         if let Some(args) = e.update_args() {
             app.update(args);
         }
 
-        if let Some(args) = e.press_args() {
-            app.key_press(args);
+        if let Some(args) = e.render_args() {
+            app.render(args);
         }
     }
 }

@@ -24,12 +24,19 @@ impl App {
         }
     }
 
+    pub fn add_entity(&mut self, e: Box<Entity>) {
+        self.entities.push(e);
+    }
+
     pub fn update(&mut self, args: UpdateArgs) {
-        for &entity in &self.entities {
-            entity.update(args)
+        for e in &mut self.entities {
+            e.update(args);
         }
     }
 
     pub fn render(&mut self, args: RenderArgs) {
+        for e in &mut self.entities {
+            e.render(args);
+        }
     }
 }

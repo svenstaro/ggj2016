@@ -1,11 +1,8 @@
 
-mod app;
+use Position;
+use entity::Entity;
 
-pub trait Entity {
-    fn update(&mut self, args: UpdateArgs);
-    fn render(&mut self, args: RenderArgs);
-}
-
+use piston::input::{RenderArgs, UpdateArgs};
 
 pub struct Player
 {
@@ -16,8 +13,9 @@ pub struct Player
 impl Player
 {
     pub fn new() -> Player {
-        App {
-            pos: (50.0f32, 50.0f32)
+        Player {
+            pos: Position::new(50.0f32, 50.0f32),
+            dir: Position::new(0.0f32, 0.0f32)
         }
     }
 }
