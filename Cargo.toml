@@ -4,6 +4,7 @@ name = "ggj2016"
 version = "0.1.0"
 authors = [
     "Sven-Hendrik Haase <svenstaro@gmail.com>",
+    "Rafael Epplée <raffomania@gmail.com>",
 ]
 
 [[bin]]
