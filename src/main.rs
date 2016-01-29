@@ -40,16 +40,16 @@ fn main() {
     let mut app = app::App::new();
 
     for e in window {
-        if let Some(args) = e.render_args() {
-            app.render(args);
+        if let Some(args) = e.press_args() {
+            app.key_press(args);
         }
 
         if let Some(args) = e.update_args() {
             app.update(args);
         }
 
-        if let Some(args) = e.press_args() {
-            app.key_press(args);
+        if let Some(args) = e.render_args() {
+            app.render(args);
         }
     }
 }
