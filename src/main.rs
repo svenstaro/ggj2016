@@ -6,12 +6,13 @@ extern crate rand;
 extern crate ai_behavior;
 extern crate sprite;
 
+mod app;
+mod entity;
+
 use piston_window::{ PistonWindow, WindowSettings };
 use piston::input::*;
 use piston::event_loop::*;
 use graphics::*;
-
-mod app;
 
 pub struct Size {
     width: u32,
