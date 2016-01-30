@@ -7,6 +7,15 @@ extern crate ai_behavior;
 extern crate cgmath;
 extern crate opengl_graphics;
 
+mod app;
+mod entity;
+mod player;
+mod config;
+mod person;
+
+use player::Player;
+use entity::Entity;
+
 use piston_window::{ PistonWindow, WindowSettings };
 use piston::input::*;
 use piston::event_loop::*;
@@ -20,19 +29,20 @@ use cgmath::rad;
 use cgmath::{ Vector2, Vector4 };
 use cgmath::{ Rotation2, Basis2 };
 
-mod app;
-mod camera;
-mod entity;
-mod player;
-mod config;
-mod person;
+fn transform_camera_coords(player : &Player, x : u32, y: u32, width : u32, height : u32) -> (i32, i32) {
+    return (
+        x as i32 - player.get_position().x as i32 + (width as f32 / 2f32) as i32 ,
+        y as i32 - player.get_position().y as i32 + (height as f32 / 2f32) as i32
+    );
+}
 
-fn draw_background(x: u32, y: u32, context: graphics::context::Context, gl_graphics: &mut GlGraphics, textures: &Vec<Texture>, seed: [u32;4]) {
+fn draw_background(x: u32, y: u32, context: graphics::context::Context, gl_graphics: &mut GlGraphics, textures: &Vec<Texture>, seed: [u32;4], player : &mut Player) {
     let mut rng1: XorShiftRng = SeedableRng::from_seed(seed);
     let txt: &Texture = textures.get(0).unwrap();
     let (width, height) = txt.get_size();
     for i in 0..(x/width) + 1 {
         for j in 0..(y/height) + 1 {
+            let (k, l) = transform_camera_coords(player, i, j, x, y);
             let rand = rng1.gen::<u32>() % textures.len() as u32;
             let txt: &Texture = textures.get(rand as usize).unwrap();
             let (width, height) = txt.get_size();
@@ -80,8 +90,7 @@ fn main() {
         if let Some(args) = e.render_args() {
             gl.draw(args.viewport(), |c, gl| {
                 clear([0.5, 0.2, 0.9, 1.0], gl);
-
-                draw_background(args.width, args.height, c, gl, &textures, seed);
+                draw_background(args.width, args.height, c, gl, &textures, seed, app.get_player());
 
                 app.render(c, gl, args);
             });
