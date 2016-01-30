@@ -94,7 +94,6 @@ impl Entity for Player {
     fn update(&mut self, args: UpdateArgs) {
         self.pos.x += 100.0f64 * args.dt as f64 * self.dir.x;
         self.pos.y += 100.0f64 * args.dt as f64 * self.dir.y;
-        println!("x:{} y:{}", self.pos.x, self.pos.y);
     }
 
     fn render(&mut self, ctx : &mut GraphicsContext, c: graphics::context::Context, gl: &mut GlGraphics) {
