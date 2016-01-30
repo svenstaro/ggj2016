@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::any::Any;
 
 use graphics;
-use opengl_graphics::GlGraphics;
+use opengl_graphics::*;
 
 use piston::input::Button;
 use piston::input::Button::Keyboard;
@@ -23,9 +23,9 @@ pub struct App {
 //fn insert(&mut self, k: K, v: V) -> Option<V>
 
 impl App {
-    pub fn new() -> App {
+    pub fn new(player_text: Texture) -> App {
         let mut hm : HashMap<u32, Box<Entity>> = HashMap::new();
-        hm.insert(0, Box::new(Player::new()));
+        hm.insert(0, Box::new(Player::new(player_text)));
 
         App {
             last_entity_id: 1,

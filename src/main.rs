@@ -54,7 +54,8 @@ fn main() {
     window.set_ups(60);
     let mut gl = GlGraphics::new(opengl);
 
-    let mut app = app::App::new();
+    let emoji_player = Texture::from_path(Path::new("assets/img/emoji/78.png")).unwrap();
+    let mut app = app::App::new(emoji_player);
 
     let emoji = Texture::from_path(Path::new("assets/img/emoji/77.png")).unwrap();
     app.add_entity(Box::new(person::Person::new(emoji, Vector2::new(50.0, 50.0))));

@@ -1,6 +1,9 @@
+use std::any::Any;
+
 use graphics;
-use opengl_graphics::GlGraphics;
+use opengl_graphics::*;
 use entity::Entity;
+use graphics::{Image, default_draw_state, Graphics};
 
 use cgmath::rad;
 use cgmath::{Vector2, Vector4};
@@ -8,20 +11,20 @@ use cgmath::{Rotation2, Basis2};
 
 use piston::input::*;
 
-use std::any::Any;
-
 pub struct Player
 {
     pos : Vector2<f64>,
-    dir : Vector2<f64>
+    dir : Vector2<f64>,
+    emotion: Texture,
 }
 
 impl Player
 {
-    pub fn new() -> Player {
+    pub fn new(texture: Texture) -> Player {
         Player {
             pos: Vector2::<f64>::new(50.0f64, 50.0f64),
-            dir: Vector2::<f64>::new(0.0f64, 0.0f64)
+            dir: Vector2::<f64>::new(0.0f64, 0.0f64),
+            emotion: texture
         }
     }
 
@@ -40,9 +43,10 @@ impl Player
             Button::Keyboard(Key::W) => { y_mov += 1.0f64 },
             Button::Keyboard(Key::S) => { y_mov -= 1.0f64 },
             _ => {}
-        }
+        };
 
-        println!("asdasd YAAAAAA");
+        self.dir.x = x_mov;
+        self.dir.y = y_mov;
 
         /*if (x_mov != 0.0f64 || y_mov != 0.0f64) {
             auto position = entity.component<Position>();
@@ -75,13 +79,16 @@ impl Entity for Player {
     }
 
     fn update(&mut self, args: UpdateArgs) {
-        self.pos.x += args.dt as f64 * self.dir.x;
-        self.pos.y += args.dt as f64 * self.dir.y;
+        self.pos.x += 100.0f64 * args.dt as f64 * self.dir.x;
+        self.pos.y += 100.0f64 * args.dt as f64 * self.dir.y;
         println!("x:{} y:{}", self.pos.x, self.pos.y);
     }
 
     fn render(&mut self, context: graphics::context::Context, gl_graphics: &mut GlGraphics, args: RenderArgs) {
-        //println!("playerrender");
+        let (tex_width, tex_height) = self.emotion.get_size();
+		// let rect = Rectangle::new([1.0,0.0,0.0,1.0], )
+		let image = Image::new().rect([self.pos.x, self.pos.y, tex_width as f64, tex_height as f64]);//Rectangle::new(self.position.x, self.position.y, tex_width, tex_height));
+		image.draw(&self.emotion, default_draw_state(), context.transform, gl_graphics);
     }
 
     fn get_position(&self) -> Vector2<f64> {
