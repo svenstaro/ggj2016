@@ -2,6 +2,9 @@ use std::mem;
 use std::collections::HashMap;
 use std::any::Any;
 
+use graphics;
+use opengl_graphics::GlGraphics;
+
 use piston::input::Button;
 use piston::input::Button::Keyboard;
 use piston::input::Key;
@@ -58,9 +61,9 @@ impl App {
         }
     }
 
-    pub fn render(&mut self, args: RenderArgs) {
+    pub fn render(&mut self, context: graphics::context::Context, gl_graphics: &mut GlGraphics, args: RenderArgs) {
         for (id, e) in &mut self.entities {
-            e.render(args);
+            e.render(context, gl_graphics, args);
         }
     }
 }

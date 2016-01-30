@@ -7,12 +7,6 @@ extern crate ai_behavior;
 extern crate cgmath;
 extern crate opengl_graphics;
 
-mod app;
-mod camera;
-mod entity;
-mod player;
-mod config;
-
 use piston_window::{ PistonWindow, WindowSettings };
 use piston::input::*;
 use piston::event_loop::*;
@@ -24,6 +18,13 @@ use std::path::Path;
 use cgmath::rad;
 use cgmath::{ Vector2, Vector4 };
 use cgmath::{ Rotation2, Basis2 };
+
+mod app;
+mod camera;
+mod entity;
+mod player;
+mod config;
+mod person;
 
 fn draw_background(x: u32, y: u32, context: graphics::context::Context, gl_graphics: &mut GlGraphics, txt: &Texture) {
     let (width, height) = txt.get_size();
@@ -46,6 +47,9 @@ fn main() {
     let mut gl = GlGraphics::new(opengl);
 
     let mut app = app::App::new();
+    let emoji = Texture::from_path(Path::new("assets/img/emoji/77.png")).unwrap();
+    app.add_entity(Box::new(person::Person::new(emoji, Vector2::new(50.0, 50.0))));
+
     let size_image = 160;
     // Add player to entities (player instanciated in app)
     //app.add_entity(Box::new(player::Player::new()));
@@ -68,8 +72,9 @@ fn main() {
             gl.draw(args.viewport(), |c, gl| {
                 clear([0.5, 0.2, 0.9, 1.0], gl);
                 draw_background(grid_width, grid_height, c, gl, &texture);
+
+                app.render(c, gl, args);
             });
-            app.render(args);
         }
     }
 }
