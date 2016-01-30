@@ -25,13 +25,11 @@ impl App {
         let mut hm : HashMap<u32, Rc<RefCell<Entity>>> = HashMap::new();
         let mut player = Rc::new(RefCell::new(Player::new()));
         hm.insert(0, player.clone());
-        let mut app = App {
+        App {
             last_entity_id: 1,
             entities: hm,
             player : player.clone()
-        };
-
-        return app;
+        }
     }
 
     pub fn key_press(&mut self, args: Button) {
