@@ -45,15 +45,17 @@ impl GraphicsContext {
     }
 
     fn draw_background(&mut self, gl:&mut GlGraphics) {
+        let (x0,y0) = self.transform_camera_coords(0,0);
         let mut rng1: XorShiftRng = SeedableRng::from_seed(self.seed);
         let (width, height) = (TILE_WIDTH, TILE_HEIGHT);
         for i in 0..(self.width / width) + 1 {
             for j in 0..(self.height / height) + 1 {
                 let rand = rng1.gen::<u32>() % self.background_tile_textures.len() as u32;
                 let filename = self.background_tile_textures.get(rand as usize).unwrap().clone();
-                self.draw_texture(gl, filename, i * width, j * height, width, height);
+                self.draw_texture(gl, filename, (-1 * x0 + i as i32 * width as i32) as u32, (-1 * y0 + j as i32 * height as i32) as u32, width, height);
             }
         }
+
     }
 
     fn transform_camera_coords(&mut self, x : u32, y: u32) -> (i32, i32) {
