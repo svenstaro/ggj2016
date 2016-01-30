@@ -14,7 +14,6 @@ mod config;
 mod person;
 mod graphics_context;
 
-use player::Player;
 use entity::Entity;
 
 use graphics_context::GraphicsContext;
@@ -22,14 +21,8 @@ use piston_window::{ PistonWindow, WindowSettings };
 use piston::input::*;
 use piston::event_loop::*;
 use opengl_graphics::*;
-use graphics::{ Image, clear, default_draw_state };
-use graphics::rectangle::square;
-use std::path::Path;
-use rand::{Rng, SeedableRng, XorShiftRng};
-
-use cgmath::rad;
-use cgmath::{ Vector2, Vector4 };
-use cgmath::{ Rotation2, Basis2 };
+use rand::Rng;
+use cgmath::Vector2;
 
 fn main() {
     let mut rng = rand::thread_rng();

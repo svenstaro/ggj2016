@@ -3,9 +3,7 @@ use opengl_graphics::*;
 use graphics::{ Image, clear, default_draw_state };
 use graphics::rectangle::square;
 use rand::{Rng, SeedableRng, XorShiftRng};
-use piston_window::{ PistonWindow, WindowSettings };
 use std::collections::HashMap;
-use piston::event_loop::*;
 use std::path::Path;
 use piston::input::*;
 
@@ -44,7 +42,6 @@ impl GraphicsContext {
     }
 
     pub fn new(width : u32, height : u32, seed : [u32;4], texts : Vec<String>) -> GraphicsContext {
-        let opengl = OpenGL::V3_2;
         GraphicsContext{
             textures : HashMap::new(),
             translation : (0, 0),

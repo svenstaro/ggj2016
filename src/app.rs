@@ -1,15 +1,11 @@
-use std::mem;
 use std::collections::HashMap;
-use std::any::Any;
 
 use graphics;
 use opengl_graphics::*;
 use graphics_context::GraphicsContext;
 
 use piston::input::Button;
-use piston::input::Button::Keyboard;
-use piston::input::Key;
-use piston::input::{RenderArgs, UpdateArgs};
+use piston::input::UpdateArgs;
 
 use entity::Entity;
 

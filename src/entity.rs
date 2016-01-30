@@ -1,5 +1,5 @@
-use piston::input::{RenderArgs, UpdateArgs};
-use cgmath::{Vector2};
+use piston::input::UpdateArgs;
+use cgmath::Vector2;
 use std::any::Any;
 use graphics;
 use opengl_graphics::GlGraphics;

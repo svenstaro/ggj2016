@@ -3,12 +3,9 @@ use opengl_graphics::*;
 use entity::Entity;
 use graphics_context::GraphicsContext;
 
-use cgmath::rad;
-use cgmath::{Vector2, Vector4};
-use cgmath::{Rotation2, Basis2};
+use cgmath::Vector2;
 
 use piston::input::*;
-use graphics::{Image, default_draw_state, Graphics};
 use config::TILE_WIDTH;
 use config::TILE_HEIGHT;
 
