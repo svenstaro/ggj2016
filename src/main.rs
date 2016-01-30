@@ -25,6 +25,16 @@ use cgmath::rad;
 use cgmath::{ Vector2, Vector4 };
 use cgmath::{ Rotation2, Basis2 };
 
+fn draw_background(x: u32, y: u32, context: graphics::context::Context, gl_graphics: &mut GlGraphics, txt: &Texture) {
+    let (width, height) = txt.get_size();
+    for i in 0..x + 1 {
+        for j in 0..y + 1 {
+            let image = Image::new().rect(square((i * width) as f64, (j * height) as f64, width as f64));
+            image.draw(txt, default_draw_state(), context.transform, gl_graphics);
+        }
+    }
+}
+
 fn main() {
     let opengl = OpenGL::V3_2;
     let mut window: PistonWindow = WindowSettings::new("GGJ2016", [800, 600])
@@ -36,12 +46,11 @@ fn main() {
     let mut gl = GlGraphics::new(opengl);
 
     let mut app = app::App::new();
-
+    let size_image = 160;
     // Add player to entities (player instanciated in app)
     //app.add_entity(Box::new(player::Player::new()));
-    
-    let image = Image::new().rect(square(0.0, 0.0, 200.0));
-    let texture = Texture::from_path(Path::new("assets/img/emoji/60.png")).unwrap();
+
+    let texture = Texture::from_path(Path::new("assets/img/ground/placeholder_01.jpg")).unwrap();
 
     for e in window {
         if let Some(args) = e.press_args() {
@@ -53,9 +62,11 @@ fn main() {
         }
 
         if let Some(args) = e.render_args() {
+            let grid_width = args.width / size_image;
+            let grid_height = args.height / size_image;
             gl.draw(args.viewport(), |c, gl| {
                 clear([0.5, 0.2, 0.9, 1.0], gl);
-                image.draw(&texture, default_draw_state(), c.transform, gl);
+                draw_background(grid_width, grid_height, c, gl, &texture);
             });
             app.render(args);
         }
