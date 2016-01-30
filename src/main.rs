@@ -43,19 +43,23 @@ fn main() {
         .unwrap_or_else(|e| { panic!("Failed to build PistonWindow: {}", e) });
     window.set_ups(60);
 
-    let mut background_textures :Vec<String>= Vec::new();
+    let mut background_textures :Vec<String> = Vec::new();
     background_textures.push(String::from("assets/img/ground/placeholder_01.jpg"));
     background_textures.push(String::from("assets/img/ground/placeholder_02.jpg"));
     let mut gl = GlGraphics::new(opengl);
-    let mut ctx = GraphicsContext::new(800, 600, seed, background_textures);
+    let mut ctx = GraphicsContext::new(800, 600, seed, background_textures.clone());
     // Resource loading
-    ctx.load_texture(String::from("assets/img/ground/placeholder_01.jpg"));
-    ctx.load_texture(String::from("assets/img/ground/placeholder_02.jpg"));
-    ctx.load_texture(String::from("assets/img/emoji/78.png"));
-    ctx.load_texture(String::from("assets/img/emoji/77.png"));
+    for fname in background_textures {
+        ctx.load_texture(fname);
+    }
 
-    let mut app = app::App::new(String::from("assets/img/emoji/78.png"));
-    app.add_entity(Box::new(person::Person::new(String::from("assets/img/emoji/77.png"), Vector2::new(50.0, 50.0))));
+    let player_tex = String::from("assets/img/emoji/78.png");
+    let person_tex = String::from("assets/img/emoji/77.png");
+    ctx.load_texture(player_tex.clone());
+    ctx.load_texture(person_tex.clone());
+
+    let mut app = app::App::new(player_tex);
+    app.add_entity(Box::new(person::Person::new(person_tex, Vector2::new(50.0, 50.0))));
     // Add player to entities (player instanciated in app)
     //app.add_entity(Box::new(player::Player::new()));
 

@@ -19,7 +19,7 @@ pub struct GraphicsContext {
     width : u32,
     height : u32,
     seed : [u32;4],
-    background_tile_textures : Vec<String>
+    pub background_tile_textures : Vec<String>
 }
 
 impl GraphicsContext {
