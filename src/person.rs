@@ -2,6 +2,9 @@ use graphics;
 use opengl_graphics::*;
 use entity::Entity;
 use graphics_context::GraphicsContext;
+use app::App;
+use std::rc::Rc;
+use std::cell::RefCell;
 
 use cgmath::Vector2;
 
@@ -24,12 +27,16 @@ impl Person{
 
 impl Entity for Person {
 	/// Required to downcast Entity to precise type (see player.rs)
-	fn as_any(&mut self) -> &mut Any{
+	fn as_any_mut(&mut self) -> &mut Any{
 		self
 	}
 
-	fn update(&mut self, args: UpdateArgs){
+	fn as_any_ref(&self) -> &Any{
+		self
+	}
 
+	fn update(&mut self, app: &App, args: UpdateArgs){
+		let p = app.get_player_ref();
 	}
 
 	fn render(&mut self, ctx : &mut GraphicsContext, gl: &mut GlGraphics){

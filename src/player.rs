@@ -7,6 +7,9 @@ use graphics_context::GraphicsContext;
 use entity::Entity;
 use config::TILE_WIDTH;
 use config::TILE_HEIGHT;
+use std::rc::Rc;
+use std::cell::RefCell;
+use app::App;
 
 use cgmath::Vector2;
 
@@ -86,11 +89,15 @@ impl Player
 }
 
 impl Entity for Player {
-    fn as_any(&mut self) -> &mut Any {
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 
-    fn update(&mut self, args: UpdateArgs) {
+    fn as_any_ref(&self) -> &Any{
+        self
+    }
+
+    fn update(&mut self, app: &App, args: UpdateArgs) {
         self.pos.x += 100.0f64 * args.dt as f64 * self.dir.x;
         self.pos.y += 100.0f64 * args.dt as f64 * self.dir.y;
     }

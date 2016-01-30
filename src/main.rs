@@ -49,7 +49,6 @@ fn main() {
     ctx.load_texture(&person_tex);
 
     let mut app = app::App::new(player_tex);
-    app.add_entity(Box::new(person::Person::new(person_tex, Vector2::new(50.0, 50.0))));
     // Add player to entities (player instanciated in app)
     //app.add_entity(Box::new(player::Player::new()));
 
@@ -66,7 +65,7 @@ fn main() {
             app.update(args);
         }
 
-        ctx.update_translation(app.get_player().get_position().x as u32, app.get_player().get_position().y as u32);
+        ctx.update_translation(app.get_player_mut().get_position().x as u32, app.get_player_mut().get_position().y as u32);
 
         if let Some(args) = e.render_args() {
             gl.draw(args.viewport(), |c, gl| {
