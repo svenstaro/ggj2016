@@ -64,6 +64,7 @@ fn main() {
     for e in window {
         if let Some(args) = e.press_args() {
             app.key_press(args);
+            println!("asda");
         }
 
         if let Some(args) = e.update_args() {
