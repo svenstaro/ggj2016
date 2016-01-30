@@ -11,6 +11,8 @@ use cgmath::Vector2;
 
 use piston::input::*;
 
+use entitymanager::EntityManager;
+
 pub struct Player
 {
     pos : Vector2<f64>,

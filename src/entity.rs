@@ -5,6 +5,8 @@ use graphics;
 use opengl_graphics::GlGraphics;
 use graphics_context::GraphicsContext;
 
+use entitymanager::EntityManager;
+
 pub trait Entity {
     /// Required to downcast Entity to precise type (see player.rs)
    fn as_any(&mut self) -> &mut Any;

@@ -8,10 +8,13 @@ extern crate cgmath;
 extern crate opengl_graphics;
 
 mod app;
+mod entitymanager;
 mod entity;
+mod system;
 mod player;
 mod config;
 mod person;
+mod personspawner;
 mod graphics_context;
 
 use entity::Entity;
@@ -47,8 +50,11 @@ fn main() {
     let person_tex = String::from("assets/img/emoji/77.png");
     ctx.load_texture(&player_tex);
     ctx.load_texture(&person_tex);
+    ctx.load_texture(&String::from("assets/img/emoji/33.png"));
 
     let mut app = app::App::new(player_tex);
+    app.add_system(Box::new(personspawner::PersonSpawner::new()));
+
     app.add_entity(Box::new(person::Person::new(person_tex, Vector2::new(50.0, 50.0))));
     // Add player to entities (player instanciated in app)
     //app.add_entity(Box::new(player::Player::new()));

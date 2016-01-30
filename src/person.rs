@@ -11,6 +11,8 @@ use config::TILE_HEIGHT;
 
 use std::any::Any;
 
+use entitymanager::EntityManager;
+
 pub struct Person {
 	emotion: String,
 	position: Vector2<f64>

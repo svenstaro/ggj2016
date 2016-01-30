@@ -7,6 +7,7 @@ use std::collections::HashMap;
 use std::path::Path;
 use piston::input::*;
 
+use std::result::Result;
 
 use config::TILE_WIDTH;
 use config::TILE_HEIGHT;
@@ -70,13 +71,25 @@ impl GraphicsContext {
     }
 
     pub fn load_texture(&mut self, filename : &String) {
-        self.textures.insert(filename.clone(), Texture::from_path(Path::new(&filename)).unwrap());
+        println!("trying to load: {}", filename);
+        let maybe_texture = Texture::from_path(Path::new(&filename));
+        // match maybe_texture {
+        //     Ok(maybe_texture) => self.textures.insert(filename.clone(), maybe_texture),
+        //     Err(e) => panic!("Could not load texture \"{}\"", filename)
+        // }
+        self.textures.insert(filename.clone(), maybe_texture.unwrap());
     }
 
     pub fn draw_texture(&mut self, context: Context, gl:&mut GlGraphics, filename : String, x : u32, y: u32, width: u32, height: u32) {
         let (x, y) = self.transform_camera_coords(x, y);
-        let txt: &Texture = self.textures.get(&filename).unwrap();
+        let txt = self.textures.get(&filename);
+
         let image = Image::new().rect(square(x as f64, y as f64, width as f64)); //TODO: Do not ignore height
-        image.draw(txt, default_draw_state(), context.transform, gl);
+        match txt {
+            Some(txt) => image.draw(txt, default_draw_state(), context.transform, gl),
+            None => panic!("No texture \"{}\"", filename)
+        }
+
+
     }
 }
