@@ -47,7 +47,6 @@ fn draw_background(x: u32, y: u32, context: graphics::context::Context, gl_graph
             let txt: &Texture = textures.get(rand as usize).unwrap();
             let (width, height) = txt.get_size();
             let image = Image::new().rect(square((i as f64 * width as f64) as f64 + k, (j as f64 * height as f64) as f64 + l, width as f64));
-            println!("({}, {}) = ({}, {})", (k * width as f64) as f64, (l * height as f64) as f64, k, l);
             image.draw(txt, default_draw_state(), context.transform, gl_graphics);
         }
     }
