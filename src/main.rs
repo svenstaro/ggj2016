@@ -40,16 +40,13 @@ fn main() {
     background_textures.push(String::from("assets/img/ground/placeholder_01.jpg"));
     background_textures.push(String::from("assets/img/ground/placeholder_02.jpg"));
     let mut gl = GlGraphics::new(opengl);
-    let mut ctx = GraphicsContext::new(800, 600, seed, background_textures.clone());
-    // Resource loading
-    for fname in background_textures {
-        ctx.load_texture(fname);
-    }
+    let mut ctx = GraphicsContext::new(800, 600, seed, background_textures);
+    ctx.load_textures();
 
     let player_tex = String::from("assets/img/emoji/78.png");
     let person_tex = String::from("assets/img/emoji/77.png");
-    ctx.load_texture(player_tex.clone());
-    ctx.load_texture(person_tex.clone());
+    ctx.load_texture(&player_tex);
+    ctx.load_texture(&person_tex);
 
     let mut app = app::App::new(player_tex);
     app.add_entity(Box::new(person::Person::new(person_tex, Vector2::new(50.0, 50.0))));
