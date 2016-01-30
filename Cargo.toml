@@ -13,7 +13,7 @@ name = "ggj2016"
 [dependencies]
 piston = "0.17.0"
 piston2d-graphics = "0.13.1"
-piston2d-sprite = "0.20.0"
+piston2d-opengl_graphics = "0.23.0"
 piston_window = "0.34.0"
 piston-ai_behavior = "0.11.0"
 
