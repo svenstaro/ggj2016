@@ -19,6 +19,7 @@ pub struct Player
     pos : Vector2<f64>,
     dir : Vector2<f64>,
     emotion: String,
+    pressed : [bool;4]  // up, right, down, left
 }
 
 impl Player
@@ -27,30 +28,42 @@ impl Player
         Player {
             pos: Vector2::<f64>::new(50.0f64, 50.0f64),
             dir: Vector2::<f64>::new(0.0f64, 0.0f64),
-            emotion: texture
+            emotion: texture,
+            pressed : [false, false, false, false]
         }
+    }
+    pub fn key_release(&mut self, button: Button) {
+        match button {
+            Button::Keyboard(Key::W) => { self.pressed[0] = false },
+            Button::Keyboard(Key::D) => { self.pressed[1] = false },
+            Button::Keyboard(Key::S) => { self.pressed[2] = false },
+            Button::Keyboard(Key::A) => { self.pressed[3] = false },
+            _ => {}
+        };
+        self.update_movement_state();
     }
 
     pub fn key_press(&mut self, button: Button) {
-        let mut x_mov = 0.0f64;
-        let mut y_mov = 0.0f64;
-
         match button {
-            Button::Keyboard(Key::Left) => { x_mov -= 1.0f64 },
-            Button::Keyboard(Key::Right) => { x_mov += 1.0f64 },
-            Button::Keyboard(Key::A) => { x_mov -= 1.0f64 },
-            Button::Keyboard(Key::D) => { x_mov += 1.0f64 },
-
-            Button::Keyboard(Key::Up) => { y_mov += 1.0f64 },
-            Button::Keyboard(Key::Down) => { y_mov -= 1.0f64 },
-            Button::Keyboard(Key::W) => { y_mov += 1.0f64 },
-            Button::Keyboard(Key::S) => { y_mov -= 1.0f64 },
+            Button::Keyboard(Key::W) => { self.pressed[0] = true },
+            Button::Keyboard(Key::D) => { self.pressed[1] = true },
+            Button::Keyboard(Key::S) => { self.pressed[2] = true },
+            Button::Keyboard(Key::A) => { self.pressed[3] = true },
             _ => {}
         };
+        self.update_movement_state();
+    }
 
+    fn update_movement_state(&mut self) {
+        let mut x_mov = 0.0f64;
+        let mut y_mov = 0.0f64;
+        let speed = 1f64;
+        if self.pressed[0] { y_mov -= speed; }
+        if self.pressed[1] { x_mov += speed; }
+        if self.pressed[2] { y_mov += speed; }
+        if self.pressed[3] { x_mov -= speed; }
         self.dir.x = x_mov;
         self.dir.y = y_mov;
-
         /*if (x_mov != 0.0f64 || y_mov != 0.0f64) {
             auto position = entity.component<Position>();
 

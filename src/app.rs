@@ -51,9 +51,10 @@ impl App {
 
     pub fn key_press(&mut self, args: Button) {
         self.get_player().key_press(args);
-        if args == Keyboard(Key::Space) {
-            println!("was");
-        }
+    }
+
+    pub fn key_release(&mut self, args: Button) {
+        self.get_player().key_release(args);
     }
 
     pub fn update(&mut self, args: UpdateArgs) {

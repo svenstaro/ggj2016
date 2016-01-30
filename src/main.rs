@@ -65,13 +65,18 @@ fn main() {
 
     for e in window {
         if let Some(args) = e.press_args() {
-            //app.key_press(args);
-            println!("asda");
+            app.key_press(args);
+        }
+
+        if let Some(args) = e.release_args() {
+            app.key_release(args);
         }
 
         if let Some(args) = e.update_args() {
-            //app.update(args);
+            app.update(args);
         }
+
+        ctx.update_translation(app.get_player().get_position().x as u32, app.get_player().get_position().y as u32);
 
         if let Some(args) = e.render_args() {
             gl.draw(args.viewport(), |c, gl| {

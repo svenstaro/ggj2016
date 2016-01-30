@@ -35,11 +35,11 @@ impl GraphicsContext {
         }
     }
 
-    fn transform_camera_coords(&mut self, x : u32, y: u32) -> (u32, u32) {
+    fn transform_camera_coords(&mut self, x : u32, y: u32) -> (i32, i32) {
         let (transl_x, transl_y) = self.translation;
         return (
-            x - transl_x + (self.width / 2),
-            y - transl_y + (self.height / 2)
+            x as i32 - transl_x as i32 + (self.width as i32 / 2i32),
+            y as i32 - transl_y as i32 + (self.height as i32 / 2i32)
         );
     }
 
@@ -53,6 +53,10 @@ impl GraphicsContext {
             seed : seed,
             background_tile_textures : texts
         }
+    }
+
+    pub fn update_translation(&mut self, x : u32, y : u32) {
+        self.translation = (x, y);
     }
 
     pub fn render(&mut self, args : RenderArgs, context:Context, gl:&mut GlGraphics) {
