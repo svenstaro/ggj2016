@@ -9,6 +9,7 @@ use piston::event_loop::*;
 use std::path::Path;
 use piston::input::*;
 
+
 use config::TILE_WIDTH;
 use config::TILE_HEIGHT;
 
@@ -29,7 +30,7 @@ impl GraphicsContext {
             for j in 0..(self.height / height) + 1 {
                 let rand = rng1.gen::<u32>() % self.background_tile_textures.len() as u32;
                 let filename = self.background_tile_textures.get(rand as usize).unwrap().clone();
-                self.draw_texture(context, gl, filename, i, j, width, height);
+                self.draw_texture(context, gl, filename, i * width, j * height, width, height);
             }
         }
     }
@@ -57,8 +58,6 @@ impl GraphicsContext {
     pub fn render(&mut self, args : RenderArgs, context:Context, gl:&mut GlGraphics) {
         clear([0.5, 0.2, 0.9, 1.0], gl);
         self.draw_background(context, gl);
-        //app.render(c, gl, args);
-
     }
 
     pub fn load_texture(&mut self, filename : String) {

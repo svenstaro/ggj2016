@@ -2,8 +2,11 @@ use std::any::Any;
 
 use graphics;
 use opengl_graphics::*;
+use graphics_context::GraphicsContext;
 use entity::Entity;
 use graphics::{Image, default_draw_state, Graphics};
+use config::TILE_WIDTH;
+use config::TILE_HEIGHT;
 
 use cgmath::rad;
 use cgmath::{Vector2, Vector4};
@@ -15,12 +18,12 @@ pub struct Player
 {
     pos : Vector2<f64>,
     dir : Vector2<f64>,
-    emotion: Texture,
+    emotion: String,
 }
 
 impl Player
 {
-    pub fn new(texture: Texture) -> Player {
+    pub fn new(texture: String) -> Player {
         Player {
             pos: Vector2::<f64>::new(50.0f64, 50.0f64),
             dir: Vector2::<f64>::new(0.0f64, 0.0f64),
@@ -84,11 +87,8 @@ impl Entity for Player {
         println!("x:{} y:{}", self.pos.x, self.pos.y);
     }
 
-    fn render(&mut self, context: graphics::context::Context, gl_graphics: &mut GlGraphics, args: RenderArgs) {
-        let (tex_width, tex_height) = self.emotion.get_size();
-		// let rect = Rectangle::new([1.0,0.0,0.0,1.0], )
-		let image = Image::new().rect([self.pos.x, self.pos.y, tex_width as f64, tex_height as f64]);//Rectangle::new(self.position.x, self.position.y, tex_width, tex_height));
-		image.draw(&self.emotion, default_draw_state(), context.transform, gl_graphics);
+    fn render(&mut self, ctx : &mut GraphicsContext, c: graphics::context::Context, gl: &mut GlGraphics) {
+        ctx.draw_texture(c, gl, self.emotion.clone(), self.pos.x as u32, self.pos.y as u32, TILE_WIDTH, TILE_HEIGHT);
     }
 
     fn get_position(&self) -> Vector2<f64> {

@@ -4,6 +4,7 @@ use std::any::Any;
 
 use graphics;
 use opengl_graphics::*;
+use graphics_context::GraphicsContext;
 
 use piston::input::Button;
 use piston::input::Button::Keyboard;
@@ -23,7 +24,7 @@ pub struct App {
 //fn insert(&mut self, k: K, v: V) -> Option<V>
 
 impl App {
-    pub fn new(player_text: Texture) -> App {
+    pub fn new(player_text: String) -> App {
         let mut hm : HashMap<u32, Box<Entity>> = HashMap::new();
         hm.insert(0, Box::new(Player::new(player_text)));
 
@@ -61,9 +62,9 @@ impl App {
         }
     }
 
-    pub fn render(&mut self, context: graphics::context::Context, gl_graphics: &mut GlGraphics, args: RenderArgs) {
+    pub fn render(&mut self, ctx : &mut GraphicsContext, context: graphics::context::Context, gl_graphics: &mut GlGraphics) {
         for (id, e) in &mut self.entities {
-            e.render(context, gl_graphics, args);
+            e.render(ctx, context, gl_graphics);
         }
     }
 }

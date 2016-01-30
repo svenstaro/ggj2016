@@ -48,21 +48,17 @@ fn main() {
     background_textures.push(String::from("assets/img/ground/placeholder_02.jpg"));
     let mut gl = GlGraphics::new(opengl);
     let mut ctx = GraphicsContext::new(800, 600, seed, background_textures);
+    // Resource loading
     ctx.load_texture(String::from("assets/img/ground/placeholder_01.jpg"));
     ctx.load_texture(String::from("assets/img/ground/placeholder_02.jpg"));
+    ctx.load_texture(String::from("assets/img/emoji/78.png"));
+    ctx.load_texture(String::from("assets/img/emoji/77.png"));
 
-    /*let emoji_player = Texture::from_path(Path::new("assets/img/emoji/78.png")).unwrap();
-    let mut app = app::App::new(emoji_player);
-
-    let emoji = Texture::from_path(Path::new("assets/img/emoji/77.png")).unwrap();
-    app.add_entity(Box::new(person::Person::new(emoji, Vector2::new(50.0, 50.0))));
-
+    let mut app = app::App::new(String::from("assets/img/emoji/78.png"));
+    app.add_entity(Box::new(person::Person::new(String::from("assets/img/emoji/77.png"), Vector2::new(50.0, 50.0))));
     // Add player to entities (player instanciated in app)
     //app.add_entity(Box::new(player::Player::new()));
 
-    let mut textures :Vec<Texture>= Vec::new();
-    textures.push(Texture::from_path(Path::new("assets/img/ground/placeholder_01.jpg")).unwrap());
-    textures.push(Texture::from_path(Path::new("assets/img/ground/placeholder_02.jpg")).unwrap());*/
     for e in window {
         if let Some(args) = e.press_args() {
             //app.key_press(args);
@@ -76,6 +72,7 @@ fn main() {
         if let Some(args) = e.render_args() {
             gl.draw(args.viewport(), |c, gl| {
                 ctx.render(args, c, gl);
+                app.render(&mut ctx, c, gl);
             });
         }
     }
