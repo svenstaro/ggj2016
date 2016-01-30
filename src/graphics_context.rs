@@ -21,6 +21,25 @@ pub struct GraphicsContext {
 }
 
 impl GraphicsContext {
+    pub fn new(width : u32, height : u32, seed : [u32;4], texts : Vec<String>) -> GraphicsContext {
+        GraphicsContext{
+            textures : HashMap::new(),
+            translation : (0, 0),
+            width : width,
+            height : height,
+            seed : seed,
+            background_tile_textures : texts
+        }
+    }
+
+    pub fn load_textures(&mut self) {
+        // Resource loading
+        let todo = self.background_tile_textures.clone();
+        for fname in &todo {
+            self.load_texture(&fname);
+        }
+    }
+
     fn draw_background(&mut self, context:Context, gl:&mut GlGraphics) {
         let mut rng1: XorShiftRng = SeedableRng::from_seed(self.seed);
         let (width, height) = (TILE_WIDTH, TILE_HEIGHT);
@@ -41,17 +60,6 @@ impl GraphicsContext {
         );
     }
 
-    pub fn new(width : u32, height : u32, seed : [u32;4], texts : Vec<String>) -> GraphicsContext {
-        GraphicsContext{
-            textures : HashMap::new(),
-            translation : (0, 0),
-            width : width,
-            height : height,
-            seed : seed,
-            background_tile_textures : texts
-        }
-    }
-
     pub fn update_translation(&mut self, x : u32, y : u32) {
         self.translation = (x, y);
     }
@@ -61,7 +69,7 @@ impl GraphicsContext {
         self.draw_background(context, gl);
     }
 
-    pub fn load_texture(&mut self, filename : String) {
+    pub fn load_texture(&mut self, filename : &String) {
         self.textures.insert(filename.clone(), Texture::from_path(Path::new(&filename)).unwrap());
     }
 
