@@ -29,10 +29,10 @@ use cgmath::rad;
 use cgmath::{ Vector2, Vector4 };
 use cgmath::{ Rotation2, Basis2 };
 
-fn transform_camera_coords(player : &Player, x : u32, y: u32, width : u32, height : u32) -> (i32, i32) {
+fn transform_camera_coords(player : &Player, x : u32, y: u32, width : u32, height : u32) -> (f64, f64) {
     return (
-        x as i32 - player.get_position().x as i32 + (width as f32 / 2f32) as i32 ,
-        y as i32 - player.get_position().y as i32 + (height as f32 / 2f32) as i32
+        x as f64 - player.get_position().x as f64 + (width as f64 / 2f64) as f64 ,
+        y as f64 - player.get_position().y as f64 + (height as f64 / 2f64) as f64
     );
 }
 
@@ -46,7 +46,8 @@ fn draw_background(x: u32, y: u32, context: graphics::context::Context, gl_graph
             let rand = rng1.gen::<u32>() % textures.len() as u32;
             let txt: &Texture = textures.get(rand as usize).unwrap();
             let (width, height) = txt.get_size();
-            let image = Image::new().rect(square((i * width) as f64, (j * height) as f64, width as f64));
+            let image = Image::new().rect(square((i as f64 * width as f64) as f64 + k, (j as f64 * height as f64) as f64 + l, width as f64));
+            println!("({}, {}) = ({}, {})", (k * width as f64) as f64, (l * height as f64) as f64, k, l);
             image.draw(txt, default_draw_state(), context.transform, gl_graphics);
         }
     }
