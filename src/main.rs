@@ -74,7 +74,7 @@ fn main() {
         if let Some(args) = e.render_args() {
             gl.draw(args.viewport(), |c, gl| {
                 ctx.render(args, c, gl);
-                app.render(&mut ctx, c, gl);
+                app.render(&mut ctx, gl);
             });
         }
     }

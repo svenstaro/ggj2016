@@ -59,9 +59,9 @@ impl App {
         }
     }
 
-    pub fn render(&mut self, ctx : &mut GraphicsContext, context: graphics::context::Context, gl_graphics: &mut GlGraphics) {
+    pub fn render(&mut self, ctx : &mut GraphicsContext, gl:&mut GlGraphics) {
         for (id, e) in &mut self.entities {
-            e.render(ctx, context, gl_graphics);
+            e.render(ctx, gl);
         }
     }
 }
