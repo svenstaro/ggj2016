@@ -11,6 +11,7 @@ mod app;
 mod entity;
 mod player;
 mod config;
+mod person;
 
 use player::Player;
 use entity::Entity;
@@ -64,6 +65,10 @@ fn main() {
     let mut gl = GlGraphics::new(opengl);
 
     let mut app = app::App::new();
+
+    let emoji = Texture::from_path(Path::new("assets/img/emoji/77.png")).unwrap();
+    app.add_entity(Box::new(person::Person::new(emoji, Vector2::new(50.0, 50.0))));
+
     // Add player to entities (player instanciated in app)
     //app.add_entity(Box::new(player::Player::new()));
 
@@ -85,8 +90,9 @@ fn main() {
             gl.draw(args.viewport(), |c, gl| {
                 clear([0.5, 0.2, 0.9, 1.0], gl);
                 draw_background(args.width, args.height, c, gl, &textures, seed, app.get_player());
+
+                app.render(c, gl, args);
             });
-            app.render(args);
         }
     }
 }
