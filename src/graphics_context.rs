@@ -6,6 +6,7 @@ use rand::{Rng, SeedableRng, XorShiftRng};
 use std::collections::HashMap;
 use std::path::Path;
 use piston::input::*;
+use std::option::Option;
 
 use std::result::Result;
 
@@ -18,7 +19,8 @@ pub struct GraphicsContext {
     width : u32,
     height : u32,
     seed : [u32;4],
-    pub background_tile_textures : Vec<String>
+    pub background_tile_textures : Vec<String>,
+    context: Option<Context>
 }
 
 impl GraphicsContext {
@@ -29,7 +31,8 @@ impl GraphicsContext {
             width : width,
             height : height,
             seed : seed,
-            background_tile_textures : texts
+            background_tile_textures : texts,
+            context : None
         }
     }
 
@@ -41,14 +44,14 @@ impl GraphicsContext {
         }
     }
 
-    fn draw_background(&mut self, context:Context, gl:&mut GlGraphics) {
+    fn draw_background(&mut self, gl:&mut GlGraphics) {
         let mut rng1: XorShiftRng = SeedableRng::from_seed(self.seed);
         let (width, height) = (TILE_WIDTH, TILE_HEIGHT);
         for i in 0..(self.width / width) + 1 {
             for j in 0..(self.height / height) + 1 {
                 let rand = rng1.gen::<u32>() % self.background_tile_textures.len() as u32;
                 let filename = self.background_tile_textures.get(rand as usize).unwrap().clone();
-                self.draw_texture(context, gl, filename, i * width, j * height, width, height);
+                self.draw_texture(gl, filename, i * width, j * height, width, height);
             }
         }
     }
@@ -66,8 +69,9 @@ impl GraphicsContext {
     }
 
     pub fn render(&mut self, args : RenderArgs, context:Context, gl:&mut GlGraphics) {
+        self.context = Some(context);
         clear([0.5, 0.2, 0.9, 1.0], gl);
-        self.draw_background(context, gl);
+        self.draw_background(gl);
     }
 
     pub fn load_texture(&mut self, filename : &String) {
@@ -80,16 +84,19 @@ impl GraphicsContext {
         self.textures.insert(filename.clone(), maybe_texture.unwrap());
     }
 
-    pub fn draw_texture(&mut self, context: Context, gl:&mut GlGraphics, filename : String, x : u32, y: u32, width: u32, height: u32) {
+    pub fn draw_texture(&mut self, gl:&mut GlGraphics, filename : String, x : u32, y: u32, width: u32, height: u32) {
         let (x, y) = self.transform_camera_coords(x, y);
         let txt = self.textures.get(&filename);
 
         let image = Image::new().rect(square(x as f64, y as f64, width as f64)); //TODO: Do not ignore height
         match txt {
-            Some(txt) => image.draw(txt, default_draw_state(), context.transform, gl),
+            Some(txt) => {
+                match self.context {
+                    Some(context) => image.draw(txt, default_draw_state(), context.transform, gl),
+                    None => panic!("No graphics::Context available")
+                }
+            },
             None => panic!("No texture \"{}\"", filename)
         }
-
-
     }
 }

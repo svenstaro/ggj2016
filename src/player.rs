@@ -1,4 +1,5 @@
 use std::any::Any;
+use std::collections::HashMap;
 
 use graphics;
 use opengl_graphics::*;
@@ -18,7 +19,7 @@ pub struct Player
     pos : Vector2<f64>,
     dir : Vector2<f64>,
     emotion: String,
-    pressed : [bool;4]  // up, right, down, left
+    pressed : HashMap<Button, bool>
 }
 
 impl Player
@@ -28,39 +29,37 @@ impl Player
             pos: Vector2::<f64>::new(50.0f64, 50.0f64),
             dir: Vector2::<f64>::new(0.0f64, 0.0f64),
             emotion: texture,
-            pressed : [false, false, false, false]
+            pressed : HashMap::new()
         }
     }
     pub fn key_release(&mut self, button: Button) {
-        match button {
-            Button::Keyboard(Key::W) => { self.pressed[0] = false },
-            Button::Keyboard(Key::D) => { self.pressed[1] = false },
-            Button::Keyboard(Key::S) => { self.pressed[2] = false },
-            Button::Keyboard(Key::A) => { self.pressed[3] = false },
-            _ => {}
-        };
+        self.pressed.insert(button, false);
         self.update_movement_state();
     }
 
     pub fn key_press(&mut self, button: Button) {
-        match button {
-            Button::Keyboard(Key::W) => { self.pressed[0] = true },
-            Button::Keyboard(Key::D) => { self.pressed[1] = true },
-            Button::Keyboard(Key::S) => { self.pressed[2] = true },
-            Button::Keyboard(Key::A) => { self.pressed[3] = true },
-            _ => {}
-        };
+        self.pressed.insert(button, true);
         self.update_movement_state();
+    }
+
+    fn is_key_down(&self, key: Key) -> bool {
+        match self.pressed.get(&Button::Keyboard(key)) {
+            Some(v) => *v,
+            None => false
+        }
+
     }
 
     fn update_movement_state(&mut self) {
         let mut x_mov = 0.0f64;
         let mut y_mov = 0.0f64;
         let speed = 1f64;
-        if self.pressed[0] { y_mov -= speed; }
-        if self.pressed[1] { x_mov += speed; }
-        if self.pressed[2] { y_mov += speed; }
-        if self.pressed[3] { x_mov -= speed; }
+
+        if self.is_key_down(Key::W) || self.is_key_down(Key::Up) { y_mov -= speed; }
+        if self.is_key_down(Key::S) || self.is_key_down(Key::Down) { y_mov += speed; }
+        if self.is_key_down(Key::A) || self.is_key_down(Key::Left) { x_mov -= speed; }
+        if self.is_key_down(Key::D) || self.is_key_down(Key::Right) { x_mov += speed; }
+
         self.dir.x = x_mov;
         self.dir.y = y_mov;
         /*if (x_mov != 0.0f64 || y_mov != 0.0f64) {
@@ -98,8 +97,8 @@ impl Entity for Player {
         self.pos.y += 100.0f64 * args.dt as f64 * self.dir.y;
     }
 
-    fn render(&mut self, ctx : &mut GraphicsContext, c: graphics::context::Context, gl: &mut GlGraphics) {
-        ctx.draw_texture(c, gl, self.emotion.clone(), self.pos.x as u32, self.pos.y as u32, TILE_WIDTH, TILE_HEIGHT);
+    fn render(&mut self, ctx : &mut GraphicsContext, gl: &mut GlGraphics) {
+        ctx.draw_texture(gl, self.emotion.clone(), self.pos.x as u32, self.pos.y as u32, TILE_WIDTH, TILE_HEIGHT);
     }
 
     fn get_position(&self) -> Vector2<f64> {

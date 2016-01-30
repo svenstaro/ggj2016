@@ -12,7 +12,7 @@ pub trait Entity {
    fn as_any(&mut self) -> &mut Any;
 
     fn update(&mut self, args: UpdateArgs);
-    fn render(&mut self, ctx : &mut GraphicsContext, c: graphics::context::Context, gl: &mut GlGraphics);
+    fn render(&mut self, ctx : &mut GraphicsContext, gl: &mut GlGraphics);
 
     /// self does not have to be mutable
     /// returns the position of the entity

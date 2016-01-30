@@ -70,11 +70,11 @@ impl App {
         for id in 0..self.entities.get_size()+1 {
             let maybe_entity = self.entities.get_entity(id as u32);
             match maybe_entity {
-                Some(maybe_entity) => maybe_entity.render(ctx, context, gl_graphics),
+                Some(maybe_entity) => maybe_entity.render(ctx, gl_graphics),
                 None => {}
             }
         }
 
-        self.player.render(ctx, context, gl_graphics);
+        self.player.render(ctx, gl_graphics);
     }
 }

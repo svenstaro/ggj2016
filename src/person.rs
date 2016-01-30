@@ -34,8 +34,8 @@ impl Entity for Person {
 
 	}
 
-	fn render(&mut self, ctx : &mut GraphicsContext, c: graphics::context::Context, gl: &mut GlGraphics){
-		ctx.draw_texture(c, gl, self.emotion.clone(), self.position.x as u32, self.position.y as u32, TILE_WIDTH, TILE_HEIGHT);
+	fn render(&mut self, ctx : &mut GraphicsContext, gl: &mut GlGraphics){
+		ctx.draw_texture(gl, self.emotion.clone(), self.position.x as u32, self.position.y as u32, TILE_WIDTH, TILE_HEIGHT);
 	}
 
 	fn get_position(&self) -> Vector2<f64>{
